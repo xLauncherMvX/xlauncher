@@ -1,21 +1,15 @@
 PROJECT="${PWD}"
 DEPLOY_TRANSACTION=$(mxpy data load --key=deployTransaction-devnet)
-CORE_LOGS="interaction-logs"
+CORE_LOGS="interaction/logs"
 MY_DECIMALS="000000000000000000"
-
-CURRENT_ENV="not-set"
-MY_LOGS="interaction/logs"
-
-#deploy transaction values: this is the same for all networks
-DEPLOY_TRANSACTION=$(erdpy data load --key=deployTransaction-devnet)
-MY_DECIMALS="000000000000000000"
+MY_BYTECODE="output/xlauncher-simple.wasm"
 
 setEnvDevnet() {
   CURRENT_ENV="devnet"
   ENV_LOGS="${CORE_LOGS}/${CURRENT_ENV}"
 
   cp -f mxpy.data-storage-devnet.json mxpy.data-storage.json
-  PEM_FILE="${PROJECT}/../../wallets/users/devnet_owner_wallet.pem"
+  PEM_FILE="${PROJECT}/../../../wallets/devnet_owner_wallet.pem"
   ADDRESS=$(mxpy data load --key=address-devnet)
   MAIN_XLH_ADDRESS="erd1mhhnd3ux2duwc9824dhelherdj3gvzn04erdw29l8cyr5z8fpa7quda68z"
   PROXY=https://devnet-gateway.multiversx.com
@@ -28,9 +22,9 @@ setEnvDevnet() {
   SFT_ID_HEX=$(echo -n ${SFT_ID} | xxd -p)
 }
 
-deploy() {
+deployContract() {
   MY_LOGS="${ENV_LOGS}-deploy.json"
-  mxpy --verbose contract deploy --project=${PROJECT} --recall-nonce --pem=${PEM_FILE} \
+  mxpy --verbose contract deploy --bytecode ${MY_BYTECODE} --recall-nonce --pem=${PEM_FILE} \
     --gas-limit=100000000 --send --outfile="${MY_LOGS}" \
     --proxy=${PROXY} --chain=${CHAINID} || return
 
@@ -42,4 +36,11 @@ deploy() {
 
   echo ""
   echo "Smart contract address: ${ADDRESS}"
+}
+
+updateContract() {
+  MY_LOGS="${ENV_LOGS}-updateContract.json"
+  mxpy --verbose contract upgrade ${ADDRESS} --bytecode ${MY_BYTECODE} --recall-nonce --pem=${PEM_FILE} \
+    --gas-limit=100000000 --send --outfile="${MY_LOGS}" \
+    --proxy=${PROXY} --chain=${CHAINID}
 }
