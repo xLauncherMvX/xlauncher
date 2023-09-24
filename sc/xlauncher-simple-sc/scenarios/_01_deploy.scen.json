@@ -1,0 +1,102 @@
+{
+  "name": "xlauncher-simple",
+  "comment": "deploy scenario",
+  "steps": [
+    {
+      "step": "setState",
+      "accounts": {
+        "address:owner": {
+          "nonce": "0",
+          "balance": "0",
+          "esdt": {
+            "str:ACOIN-a00000": "100,000,000,000,000,000,000,000,000"
+          }
+        },
+        "address:client1": {
+          "nonce": "0",
+          "balance": "0",
+          "esdt": {
+            "str:ACOIN-a00000": "5,000,000,000,000,000,000,000",
+            "str:SFT-000000": {
+              "instances": [
+                {
+                  "nonce": "1",
+                  "balance": "10"
+                },
+                {
+                  "nonce": "2",
+                  "balance": "5"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "newAddresses": [
+        {
+          "creatorAddress": "address:owner",
+          "creatorNonce": "0",
+          "newAddress": "sc:xlauncher-simple"
+        }
+      ]
+    },
+    {
+      "step": "scDeploy",
+      "txId": "deploy",
+      "tx": {
+        "from": "address:owner",
+        "contractCode": "file:../output/xlauncher-simple.wasm",
+        "gasLimit": "100,000,000",
+        "gasPrice": "0"
+      },
+      "expect": {
+        "out": [],
+        "status": "0",
+        "logs": [],
+        "gas": "*",
+        "refund": "*"
+      }
+    },
+    {
+      "step": "checkState",
+      "accounts": {
+        "address:owner": {
+          "nonce": "*",
+          "balance": "0",
+          "esdt": {
+            "str:ACOIN-a00000": "100,000,000,000,000,000,000,000,000"
+          },
+          "storage": {},
+          "code": ""
+        },
+        "address:client1": {
+          "nonce": "*",
+          "balance": "0",
+          "esdt": {
+            "str:ACOIN-a00000": "5,000,000,000,000,000,000,000",
+            "str:SFT-000000": {
+              "instances": [
+                {
+                  "nonce": "1",
+                  "balance": "10"
+                },
+                {
+                  "nonce": "2",
+                  "balance": "5"
+                }
+              ]
+            }
+          },
+          "storage": {},
+          "code": ""
+        },
+        "sc:xlauncher-simple": {
+          "nonce": "*",
+          "balance": "0",
+          "storage": {},
+          "code": "file:../output/xlauncher-simple.wasm"
+        }
+      }
+    }
+  ]
+}
