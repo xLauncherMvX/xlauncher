@@ -26,6 +26,18 @@ pub trait XlauncherSimple {
 
     }
 
+    #[payable("*")]
+    #[endpoint(fundContract)]
+    fn fund_contract(
+        &self,
+        #[payment_token] token_identifier: EgldOrEsdtTokenIdentifier,
+        #[payment] _payment: BigUint,
+    ) {
+        require!(!self.token_id().is_empty(), "Token id not set");
+        let my_token_id = self.token_id().get();
+        require!(my_token_id == token_identifier, "Invalid fund token")
+    }
+
     // storage
     #[view(getTokenId)]
     #[storage_mapper("tokenId")]

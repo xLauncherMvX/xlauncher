@@ -1,0 +1,55 @@
+{
+  "name": "xlauncher-simple",
+  "comment": "deploy scenario",
+  "steps": [
+    {
+      "step": "externalSteps",
+      "path": "_02_set_contract_settings.scen.json"
+    },
+
+    {
+      "step": "checkState",
+      "accounts": {
+        "address:owner": {
+          "nonce": "*",
+          "balance": "0",
+          "esdt": {
+            "str:ACOIN-a00000": "100,000,000,000,000,000,000,000,000"
+          },
+          "storage": {},
+          "code": ""
+        },
+        "address:client1": {
+          "nonce": "*",
+          "balance": "0",
+          "esdt": {
+            "str:ACOIN-a00000": "5,000,000,000,000,000,000,000",
+            "str:SFT-000000": {
+              "instances": [
+                {
+                  "nonce": "1",
+                  "balance": "10"
+                },
+                {
+                  "nonce": "2",
+                  "balance": "5"
+                }
+              ]
+            }
+          },
+          "storage": {},
+          "code": ""
+        },
+        "sc:xlauncher-simple": {
+          "nonce": "*",
+          "balance": "0",
+          "code": "file:../output/xlauncher-simple.wasm",
+          "storage": {
+            "str:tokenId": "str:ACOIN-a00000",
+            "str:price": "10,000,000,000,000,000,000,000"
+          }
+        }
+      }
+    }
+  ]
+}
