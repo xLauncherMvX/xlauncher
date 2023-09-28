@@ -1,0 +1,75 @@
+{
+  "name": "xlauncher-simple",
+  "comment": "deploy scenario",
+  "steps": [
+    {
+      "step": "externalSteps",
+      "path": "_01_deploy.scen.json"
+    },
+    {
+      "step": "scCall",
+      "txId": "call-setContractSettings",
+      "tx": {
+        "from": "address:owner",
+        "to": "sc:xlauncher-simple",
+        "function": "setContractSettings",
+        "value": "0",
+        "gasLimit": "100,000,000",
+        "gasPrice": "0",
+        "arguments": [
+          "str:BCOIN-a00000",
+          "10,000,000,000,000,000,000,000"
+        ]
+      },
+      "expect": {
+        "out": [],
+        "status": "0",
+        "message": "",
+        "gas": "*",
+        "refund": "*"
+      }
+    },
+
+    {
+      "step": "checkState",
+      "accounts": {
+        "address:owner": {
+          "nonce": "*",
+          "balance": "0",
+          "esdt": {
+            "str:ACOIN-a00000": "100,000,000,000,000,000,000,000,000"
+          },
+          "storage": {},
+          "code": ""
+        },
+        "address:client1": {
+          "nonce": "*",
+          "balance": "0",
+          "esdt": {
+            "str:ACOIN-a00000": "5,000,000,000,000,000,000,000",
+            "str:SFT-000000": {
+              "instances": [
+                {
+                  "nonce": "1",
+                  "balance": "10"
+                },
+                {
+                  "nonce": "2",
+                  "balance": "5"
+                }
+              ]
+            }
+          },
+          "storage": {},
+          "code": ""
+        },
+        "sc:xlauncher-simple": {
+          "nonce": "*",
+          "balance": "0",
+          "storage": {},
+          "code": "file:../output/xlauncher-simple.wasm"
+        }
+      }
+    }
+  ]
+}
