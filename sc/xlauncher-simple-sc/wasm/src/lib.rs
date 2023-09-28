@@ -5,9 +5,9 @@
 ////////////////////////////////////////////////////
 
 // Init:                                 1
-// Endpoints:                            4
+// Endpoints:                            6
 // Async Callback (empty):               1
-// Total number of exported functions:   6
+// Total number of exported functions:   8
 
 #![no_std]
 
@@ -24,6 +24,8 @@ multiversx_sc_wasm_adapter::endpoints! {
         init => init
         setContractSettings => set_contract_settings
         fundContract => fund_contract
+        buy => buy
+        getTokenBalance => get_token_balance
         getTokenId => token_id
         getPrice => price
     )
