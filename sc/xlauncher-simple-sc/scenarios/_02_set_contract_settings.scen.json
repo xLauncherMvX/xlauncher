@@ -17,7 +17,7 @@
         "gasLimit": "100,000,000",
         "gasPrice": "0",
         "arguments": [
-          "str:BCOIN-a00000",
+          "str:ACOIN-a00000",
           "10,000,000,000,000,000,000,000"
         ]
       },
@@ -29,7 +29,6 @@
         "refund": "*"
       }
     },
-
     {
       "step": "checkState",
       "accounts": {
@@ -66,8 +65,11 @@
         "sc:xlauncher-simple": {
           "nonce": "*",
           "balance": "0",
-          "storage": {},
-          "code": "file:../output/xlauncher-simple.wasm"
+          "code": "file:../output/xlauncher-simple.wasm",
+          "storage": {
+            "str:tokenId": "str:ACOIN-a00000",
+            "str:price": "10,000,000,000,000,000,000,000"
+          }
         }
       }
     }
