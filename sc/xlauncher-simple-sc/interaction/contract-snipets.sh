@@ -6,6 +6,8 @@ MY_BYTECODE="output/xlauncher-simple.wasm"
 
 INITIAL_PRICE="1000${MY_DECIMALS}"
 
+# <environment section>
+
 setEnvDevnet() {
   CURRENT_ENV="devnet"
   ENV_LOGS="${CORE_LOGS}/${CURRENT_ENV}"
@@ -22,6 +24,8 @@ setEnvDevnet() {
   TOKEN_ID_HEX=$(echo -n ${TOKEN_ID} | xxd -p)
   SFT_ID_HEX=$(echo -n ${SFT_ID} | xxd -p)
 }
+
+# </environment section>
 
 deployContract() {
   MY_LOGS="${ENV_LOGS}-deploy.json"
