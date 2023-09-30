@@ -18,3 +18,8 @@ fn world() -> ScenarioWorld {
 fn _01_deploy() {
     multiversx_sc_scenario::run_rs("scenarios/_01_deploy.scen.json", world());
 }
+
+#[test]
+fn _02_set_contract_settings() {
+    multiversx_sc_scenario::run_rs("scenarios/_02_set_contract_settings.scen.json", world());
+}
