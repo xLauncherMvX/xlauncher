@@ -58,3 +58,19 @@ setContractSettings(){
     --outfile="${MY_LOGS}"
 }
 
+fundContract() {
+  MY_LOGS="${ENV_LOGS}-fundContract.json"
+  method_name="0x$(echo -n 'fundContract' | xxd -p -u | tr -d '\n')"
+  token_id="0x$(echo -n ${TOKEN_ID} | xxd -p -u | tr -d '\n')"
+  #  amount="2000001${MY_DECIMALS}"
+  amount="2000001${MY_DECIMALS}"
+  mxpy --verbose contract call ${ADDRESS} --recall-nonce \
+    --pem=${PEM_FILE} \
+    --gas-limit=3000000 \
+    --proxy=${PROXY} --chain=${CHAINID} \
+    --function="ESDTTransfer" \
+    --arguments $token_id $amount $method_name \
+    --send \
+    --outfile="${MY_LOGS}"
+}
+
