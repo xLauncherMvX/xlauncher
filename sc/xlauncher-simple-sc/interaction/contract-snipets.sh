@@ -1,8 +1,10 @@
 PROJECT="${PWD}"
-DEPLOY_TRANSACTION=$(mxpy data load --key=deployTransaction-devnet)
+
 CORE_LOGS="interaction/logs"
 MY_DECIMALS="000000000000000000"
 MY_BYTECODE="output/xlauncher-simple.wasm"
+
+INITIAL_PRICE="1000${MY_DECIMALS}"
 
 setEnvDevnet() {
   CURRENT_ENV="devnet"
@@ -11,12 +13,11 @@ setEnvDevnet() {
   cp -f mxpy.data-storage-devnet.json mxpy.data-storage.json
   PEM_FILE="${PROJECT}/../../../wallets/devnet_owner_wallet.pem"
   ADDRESS=$(mxpy data load --key=address-devnet)
-  MAIN_XLH_ADDRESS="erd1mhhnd3ux2duwc9824dhelherdj3gvzn04erdw29l8cyr5z8fpa7quda68z"
   PROXY=https://devnet-gateway.multiversx.com
   CHAINID=D
 
   TOKEN_ID="XLH-4a7cc0"
-  SFT_ID="SFT-8ff335"
+  START_TIME_STAMP=$(date -d '2023-10-01 00:00:00' +"%s")
 
   TOKEN_ID_HEX=$(echo -n ${TOKEN_ID} | xxd -p)
   SFT_ID_HEX=$(echo -n ${SFT_ID} | xxd -p)
@@ -44,3 +45,16 @@ updateContract() {
     --gas-limit=100000000 --send --outfile="${MY_LOGS}" \
     --proxy=${PROXY} --chain=${CHAINID}
 }
+
+setContractSettings(){
+  MY_LOGS="${ENV_LOGS}-setContractSettings.json"
+  mxpy --verbose contract call ${ADDRESS} --recall-nonce \
+    --pem=${PEM_FILE} \
+    --gas-limit=8000000 \
+    --proxy=${PROXY} --chain=${CHAINID} \
+    --function="setContractSettings" \
+    --arguments "0x${TOKEN_ID_HEX}" ${INITIAL_PRICE} ${START_TIME_STAMP} \
+    --send \
+    --outfile="${MY_LOGS}"
+}
+
