@@ -13,17 +13,21 @@ pub trait XlauncherSimple {
 
     #[only_owner]
     #[endpoint(setContractSettings)]
-    fn set_contract_settings(&self,
-                             token_id: TokenIdentifier,
-                             initial_price: BigUint,
-                             start_stamp_val: u64,
+    fn set_contract_settings(
+        &self,
+        token_id: TokenIdentifier,
+        initial_price: BigUint,
+        start_stamp_val: u64,
     ) {
         require!(
             token_id.is_valid_esdt_identifier(),
             "Invalid token identifier"
         );
         require!(initial_price > 0, "Initial price must be positive value");
-        require!(start_stamp_val >= 0_u64, "Start time stamp must be grater then zero");
+        require!(
+            start_stamp_val >= 0_u64,
+            "Start time stamp must be grater then zero"
+        );
 
         self.token_id().set(&token_id);
         self.price().set(initial_price);
@@ -52,7 +56,9 @@ pub trait XlauncherSimple {
 
         let my_token_id = self.token_id().get();
         let egld_or_esdt_token_identifier = EgldOrEsdtTokenIdentifier::esdt(my_token_id.clone());
-        let token_balance = self.blockchain().get_sc_balance(&egld_or_esdt_token_identifier, 0);
+        let token_balance = self
+            .blockchain()
+            .get_sc_balance(&egld_or_esdt_token_identifier, 0);
 
         let big_zero: BigUint = BigUint::zero();
         if big_zero < token_balance {
@@ -70,7 +76,10 @@ pub trait XlauncherSimple {
     fn buy(&self) {
         let current_time_stamp: u64 = self.blockchain().get_block_timestamp();
         let start_time_stamp = self.start_timestamp().get();
-        require!(start_time_stamp <= current_time_stamp, "Start time bigger then current time");
+        require!(
+            start_time_stamp <= current_time_stamp,
+            "Start time bigger then current time"
+        );
 
         let egld_or_esdt_token_identifier = self.call_value().egld_or_single_esdt();
         let payment_token = egld_or_esdt_token_identifier.token_identifier;
@@ -99,7 +108,9 @@ pub trait XlauncherSimple {
         let my_token_id = self.token_id().get();
 
         let egld_or_esdt_token_identifier = EgldOrEsdtTokenIdentifier::esdt(my_token_id);
-        let balance: BigUint = self.blockchain().get_sc_balance(&egld_or_esdt_token_identifier, 0);
+        let balance: BigUint = self
+            .blockchain()
+            .get_sc_balance(&egld_or_esdt_token_identifier, 0);
         return balance;
     }
 
