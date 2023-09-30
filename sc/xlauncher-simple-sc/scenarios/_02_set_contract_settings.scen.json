@@ -18,7 +18,8 @@
         "gasPrice": "0",
         "arguments": [
           "str:ACOIN-a00000",
-          "10,000,000,000,000,000,000,000"
+          "10,000,000,000,000,000,000,000",
+          "123"
         ]
       },
       "expect": {
@@ -68,7 +69,8 @@
           "code": "file:../output/xlauncher-simple.wasm",
           "storage": {
             "str:tokenId": "str:ACOIN-a00000",
-            "str:price": "10,000,000,000,000,000,000,000"
+            "str:price": "10,000,000,000,000,000,000,000",
+            "str:startTimestamp": "123"
           }
         }
       }

@@ -9,6 +9,9 @@
 
     {
       "step": "setState",
+      "currentBlockInfo": {
+        "blockTimestamp": "123"
+      },
       "accounts": {
         "address:client1": {
           "nonce": "0",
@@ -66,7 +69,8 @@
           },
           "storage": {
             "str:tokenId": "str:ACOIN-a00000",
-            "str:price": "10,000,000,000,000,000,000,000"
+            "str:price": "10,000,000,000,000,000,000,000",
+            "str:startTimestamp": "123"
           }
         }
       }

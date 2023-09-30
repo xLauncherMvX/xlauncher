@@ -25,6 +25,8 @@
       }
     },
 
+
+
     {
       "step": "checkState",
       "accounts": {
@@ -67,7 +69,8 @@
           },
           "storage": {
             "str:tokenId": "str:ACOIN-a00000",
-            "str:price": "10,000,000,000,000,000,000,000"
+            "str:price": "10,000,000,000,000,000,000,000",
+            "str:startTimestamp": "123"
           }
         }
       }

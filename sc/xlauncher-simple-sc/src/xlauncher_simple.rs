@@ -1,5 +1,6 @@
 #![no_std]
 
+use crate::endpoints::start_timestamp;
 multiversx_sc::imports!();
 multiversx_sc::derive_imports!();
 
@@ -14,16 +15,19 @@ pub trait XlauncherSimple {
     #[endpoint(setContractSettings)]
     fn set_contract_settings(&self,
                              token_id: TokenIdentifier,
-                             initial_price: BigUint) {
+                             initial_price: BigUint,
+                             start_stamp_val: u64,
+    ) {
         require!(
             token_id.is_valid_esdt_identifier(),
             "Invalid token identifier"
         );
         require!(initial_price > 0, "Initial price must be positive value");
+        require!(start_stamp_val >= 0_u64, "Start time stamp must be grater then zero");
 
         self.token_id().set(&token_id);
         self.price().set(initial_price);
-
+        self.start_timestamp().set(start_stamp_val);
     }
 
     #[payable("*")]
@@ -41,6 +45,10 @@ pub trait XlauncherSimple {
     #[payable("EGLD")]
     #[endpoint]
     fn buy(&self) {
+        let current_time_stamp: u64 = self.blockchain().get_block_timestamp();
+        let start_time_stamp = self.start_timestamp().get();
+        require!(start_time_stamp <= current_time_stamp, "Start time bigger then current time");
+
         let egld_or_esdt_token_identifier = self.call_value().egld_or_single_esdt();
         let payment_token = egld_or_esdt_token_identifier.token_identifier;
         let payment_amount = egld_or_esdt_token_identifier.amount;
@@ -80,4 +88,8 @@ pub trait XlauncherSimple {
     #[view(getPrice)]
     #[storage_mapper("price")]
     fn price(&self) -> SingleValueMapper<BigUint>;
+
+    #[view(getStartTimestamp)]
+    #[storage_mapper("startTimestamp")]
+    fn start_timestamp(&self) -> SingleValueMapper<u64>;
 }
