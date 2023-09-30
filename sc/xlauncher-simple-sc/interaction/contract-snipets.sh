@@ -17,7 +17,7 @@ setEnvDevnet() {
   CHAINID=D
 
   TOKEN_ID="XLH-4a7cc0"
-  START_TIME_STAMP=$(date -d '2023-10-01 00:00:00' +"%s")
+  START_TIME_STAMP=$(date -d '2023-09-01 00:00:00' +"%s")
 
   TOKEN_ID_HEX=$(echo -n ${TOKEN_ID} | xxd -p)
   SFT_ID_HEX=$(echo -n ${SFT_ID} | xxd -p)
@@ -78,7 +78,7 @@ buyTokens() {
   MY_LOGS="${ENV_LOGS}-buyTokens.json"
   mxpy --verbose contract call ${ADDRESS} --recall-nonce \
     --pem=${PEM_FILE} \
-    --gas-limit=100000000 \
+    --gas-limit=5000000 \
     --function="buy" \
     --value=1250000000000000000 \
     --proxy=${PROXY} --chain=${CHAINID} \
