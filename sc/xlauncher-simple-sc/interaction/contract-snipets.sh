@@ -74,3 +74,15 @@ fundContract() {
     --outfile="${MY_LOGS}"
 }
 
+buyTokens() {
+  MY_LOGS="${ENV_LOGS}-buyTokens.json"
+  mxpy --verbose contract call ${ADDRESS} --recall-nonce \
+    --pem=${PEM_FILE} \
+    --gas-limit=100000000 \
+    --function="buy" \
+    --value=1250000000000000000 \
+    --proxy=${PROXY} --chain=${CHAINID} \
+    --send \
+    --outfile="${MY_LOGS}"
+}
+
