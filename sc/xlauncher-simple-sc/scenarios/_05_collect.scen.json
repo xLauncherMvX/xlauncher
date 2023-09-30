@@ -1,0 +1,65 @@
+{
+  "name": "xlauncher-simple",
+  "comment": "deploy scenario",
+  "steps": [
+    {
+      "step": "externalSteps",
+      "path": "_04_buy_ok.scen.json"
+    },
+
+    {
+      "step": "scCall",
+      "tx": {
+        "from": "address:owner",
+        "to": "sc:xlauncher-simple",
+        "value": "0",
+        "function": "collect",
+        "arguments": [],
+        "gasLimit": "10,000,000",
+        "gasPrice": "0"
+      },
+      "expect": {
+        "status": "",
+        "gas": "*",
+        "refund": "*"
+      }
+    },
+
+    {
+      "step": "checkState",
+      "accounts": {
+        "address:owner": {
+          "nonce": "*",
+          "balance": "1000000000000000000",
+          "esdt": {
+            "str:ACOIN-a00000": "99990000000000000000000000"
+          },
+          "storage": {},
+          "code": ""
+        },
+        "address:client1": {
+          "nonce": "*",
+          "balance": "0",
+          "esdt": {
+            "str:ACOIN-a00000": "10000000000000000000000"
+          },
+          "storage": {},
+          "code": ""
+        },
+        "sc:xlauncher-simple": {
+          "nonce": "*",
+          "code": "file:../output/xlauncher-simple.wasm",
+          "balance": "0",
+          "esdt": {
+            "str:ACOIN-a00000": "0"
+          },
+          "storage": {
+            "str:tokenId": "str:ACOIN-a00000",
+            "str:price": "10,000,000,000,000,000,000,000",
+            "str:startTimestamp": "123"
+          }
+        }
+      }
+    }
+  ]
+}

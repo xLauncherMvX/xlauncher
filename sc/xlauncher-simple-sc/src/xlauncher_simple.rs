@@ -42,6 +42,29 @@ pub trait XlauncherSimple {
         require!(my_token_id == token_identifier, "Invalid fund token")
     }
 
+    #[only_owner]
+    #[endpoint]
+    fn collect(&self) {
+        let owner = self.blockchain().get_owner_address();
+
+        let sc_address: ManagedAddress = self.blockchain().get_sc_address();
+        let egld_balance = self.blockchain().get_balance(&sc_address);
+
+        let my_token_id = self.token_id().get();
+        let egld_or_esdt_token_identifier = EgldOrEsdtTokenIdentifier::esdt(my_token_id.clone());
+        let token_balance = self.blockchain().get_sc_balance(&egld_or_esdt_token_identifier, 0);
+
+        let big_zero: BigUint = BigUint::zero();
+        if big_zero < token_balance {
+            self.send()
+                .direct_esdt(&owner, &my_token_id, 0, &token_balance);
+        }
+
+        if big_zero < egld_balance {
+            self.send().direct_egld(&owner, &egld_balance)
+        }
+    }
+
     #[payable("EGLD")]
     #[endpoint]
     fn buy(&self) {
