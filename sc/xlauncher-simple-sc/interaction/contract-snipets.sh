@@ -22,7 +22,22 @@ setEnvDevnet() {
   START_TIME_STAMP=$(date -d '2023-09-01 00:00:00' +"%s")
 
   TOKEN_ID_HEX=$(echo -n ${TOKEN_ID} | xxd -p)
-  SFT_ID_HEX=$(echo -n ${SFT_ID} | xxd -p)
+}
+
+setEnvMainnet() {
+  CURRENT_ENV="mainnet"
+  ENV_LOGS="${CORE_LOGS}/${CURRENT_ENV}"
+
+  cp -f mxpy.data-storage-mainnet.json mxpy.data-storage.json
+  PEM_FILE="${PROJECT}/../../../wallets/users/mainnet_owner_wallet.pem"
+  ADDRESS=$(mxpy data load --key=address-devnet)
+  PROXY=https://api.multiversx.com
+  CHAINID=1
+
+  TOKEN_ID="XLH-8daa50"
+  START_TIME_STAMP=$(date -d '2023-10-10 19:00:00' +"%s")
+
+  TOKEN_ID_HEX=$(echo -n ${TOKEN_ID} | xxd -p)
 }
 
 # </environment section>
