@@ -34,8 +34,8 @@ setEnvMainnet() {
   PROXY=https://api.multiversx.com
   CHAINID=1
 
-  TOKEN_ID="XLH-8daa50"
-  START_TIME_STAMP=$(date -d '2023-10-10 19:00:00' +"%s")
+  TOKEN_ID="XBID-c7e360"
+  START_TIME_STAMP=$(date -d '2023-10-10 7:00:00' +"%s")
 
   TOKEN_ID_HEX=$(echo -n ${TOKEN_ID} | xxd -p)
 }
