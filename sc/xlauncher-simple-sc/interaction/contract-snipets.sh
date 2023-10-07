@@ -4,7 +4,7 @@ CORE_LOGS="interaction/logs"
 MY_DECIMALS="000000000000000000"
 MY_BYTECODE="output/xlauncher-simple.wasm"
 
-INITIAL_PRICE="1000${MY_DECIMALS}"
+INITIAL_PRICE="5000${MY_DECIMALS}"
 
 # <environment section>
 
