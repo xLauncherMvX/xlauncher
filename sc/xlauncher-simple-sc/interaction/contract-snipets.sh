@@ -95,13 +95,13 @@ fundContract() {
 
 collect() {
   MY_LOGS="${ENV_LOGS}-collect.json"
-  erdpy --verbose contract call ${ADDRESS} --recall-nonce \
+  mxpy --verbose contract call ${ADDRESS} --recall-nonce \
     --pem=${PEM_FILE} \
     --gas-limit=3000000 \
     --proxy=${PROXY} --chain=${CHAINID} \
     --function="collect" \
     --send \
-    --outfile="${MY_LOGS}/fundContract-${ENV_LOGS}.json"
+    --outfile="${MY_LOGS}"
 }
 
 buyTokens() {

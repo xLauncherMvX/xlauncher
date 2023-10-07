@@ -12,4 +12,4 @@ output
 scenarios-gen
 
 interaction/logs
-mxpy.data-storage-devnet.json
+mxpy.data-storage.json
